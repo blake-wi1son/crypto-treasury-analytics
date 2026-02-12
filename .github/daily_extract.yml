@@ -1,0 +1,38 @@
+name: daily_extract
+
+on:
+  schedule:
+    - cron: '0 14 * * *' # daily run at 12pm UTC, 9am EST
+  workflow_dispatch: # adds manual button
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12' #match your env
+
+      - name: install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: extract XRP data
+        env:
+          COINGECKO_DEMO_API_KEY= ${{ secrets.COINGECKO_DEMO_API_KEY }}
+          COINGECKO_DEMO_URL= "https://api.coingecko.com/api/v3"
+        run: python extraction/fetch_xrp.py
+
+      - name: commit new data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/raw/
+          git diff --staged --quiet || git commit -m "data(auto-commit): daily xrp extract $(date +%Y-%m-%d)"
+
+      - name: push changes
+        run: git push
