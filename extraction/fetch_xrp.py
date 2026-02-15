@@ -1,8 +1,9 @@
 import os
 import requests as rq
 import pandas as pd
-from dotenv import load_dotenv
 from datetime import datetime
+
+from helper_functions import get_demo_key, save_as_csv
 
 # Data Storage
 RAW_DATA_DIR = os.path.join(
@@ -11,34 +12,8 @@ RAW_DATA_DIR = os.path.join(
     "raw"
 )
 
-def get_demo_key():
-    # load environment variables from .env
-    load_dotenv()
-    # Get the API key from environment variables
-    api_key = os.getenv("COINGECKO_DEMO_API_KEY")
-    if api_key is None:
-        raise ValueError("COINGECKO_DEMO_API_KEY not found in environment variables")
-    return api_key
-
-def save_as_csv(df, file_name, append = False):
-
-    os.makedirs(RAW_DATA_DIR, exist_ok=True)
-    filepath = os.path.join(RAW_DATA_DIR, file_name)
-    
-    # Append if file exists and append=True
-    if append and os.path.exists(filepath):
-        existing_df = pd.read_csv(filepath)
-        df = pd.concat([existing_df, df], ignore_index=True)
-        # Remove duplicates based on all columns
-        df = df.drop_duplicates()
-    
-    df.to_csv(filepath, index=False)
-    print(f"Saved: {filepath} ({len(df)} rows)")
-    
-    return filepath
-
 # make api call
-key = get_demo_key()
+key = get_demo_key("COINGECKO_DEMO_API_KEY")
 base_url = os.getenv("COINGECKO_DEMO_URL")
 
 headers = {
@@ -70,8 +45,7 @@ df["extracted_at"] = datetime.now()
 print(df.head())
 
 #save dataframe to csv in data/raw
-
 date_str = datetime.now().strftime("%Y%m%d")
 filename = f"xrp_prices_{date_str}.csv"
-save_as_csv(df, filename, append=False)
+save_as_csv(df, filename, RAW_DATA_DIR, append=False)
 print("XRP extraction saved")
