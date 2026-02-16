@@ -2,7 +2,7 @@ name: daily_extract
 
 on:
   schedule:
-    - cron: '0 14 * * *' # daily run at 12pm UTC, 9am EST
+    - cron: '0 22 * * *' # daily run at 5pm EST
   workflow_dispatch: # adds manual button
 
 jobs:
@@ -26,6 +26,11 @@ jobs:
           COINGECKO_DEMO_API_KEY: ${{ secrets.COINGECKO_DEMO_API_KEY }}
           COINGECKO_DEMO_URL: "https://api.coingecko.com/api/v3"
         run: python extraction/fetch_xrp.py
+
+      - name: extract XRP data
+        env:
+          FRED_API_KEY:  ${{ secrets.FRED_API_KEY }}
+        run: python extraction/fetch_fed_data.py
 
       - name: commit new data
         run: |
