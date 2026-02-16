@@ -38,9 +38,9 @@ def fetch_fed_data(series_id=None, start_date=DATE_STR):
 
     return df
 
-dff_data = fetch_fed_data(series_id="dff")
-dgs2_data = fetch_fed_data(series_id="dgs2")
-dgs10_data = fetch_fed_data(series_id="dgs10")    
+dff_data = fetch_fed_data(series_id="DFF")
+dgs2_data = fetch_fed_data(series_id="DGS2")
+dgs10_data = fetch_fed_data(series_id="DGS10")
     
 # Combine into one DataFrame
 combined_df = pd.merge(dff_data, dgs2_data, on="date", how="outer")
