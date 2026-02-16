@@ -27,7 +27,7 @@ jobs:
           COINGECKO_DEMO_URL: "https://api.coingecko.com/api/v3"
         run: python extraction/fetch_xrp.py
 
-      - name: extract XRP data
+      - name: extract fed data
         env:
           FRED_API_KEY:  ${{ secrets.FRED_API_KEY }}
         run: python extraction/fetch_fed_data.py
