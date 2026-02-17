@@ -10,16 +10,16 @@ Full stack analytics engineering project: API extraction, data modeling, automat
 
 # Current Progress
 - [x] Project setup
-- [ ] API extraction scripts
-- [ ] Data warehouse setup
+- [x] API extraction scripts
+- [x] Data warehouse setup
 - [ ] dbt models
 - [ ] Dashboard
 
 # Planned Tech Stack
 - Python for data extraction
-- SQL transformation layer (likely dbt)
-- Embedded database (exploring options)
-- Visualization toll (TBD)
+- Embedded database. Decided to work with duckdb given its simplicity and no cost. Ideally, in a production setting this would be a cloud database.
+- SQL transformation layer. Utilizing dbt core with duckdb
+- Visualization tool (TBD)
 - GitHub Actions for automation
 
 More details to come as I build this out.
