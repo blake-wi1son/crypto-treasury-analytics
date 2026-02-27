@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: 'raw'
+    database: analytics
+    schema: 'main'
+    tables:
+      - name: raw_xrp_prices
+        description: daily xrp prices
+      - name: raw_fed_rates
+        description: daily interest rates from the FRED api
